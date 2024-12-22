@@ -22,7 +22,7 @@ class Mentor: # класс преподаватели
                 student.grades[course] = [grade]
         else:
             return 'Ошибка'
-class  Lecturer(Mentor):
+#class  Lecturer(Mentor):
 
 
 
