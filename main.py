@@ -1,3 +1,20 @@
+"""
+Задание № 1. Наследование
+класс Mentor должен стать родительским классом,
+а от него нужно реализовать наследование классов Lecturer (лекторы)
+и Reviewer (эксперты, проверяющие домашние задания).
+"""
+
+"""
+Задание № 2. Атрибуты и взаимодействие классов.
+Теперь это могут делать только Reviewer (реализуйте такой метод)! 
+А что могут делать лекторы? Получать оценки за лекции от студентов :) 
+Реализуйте метод выставления оценок лекторам у класса Student 
+(оценки по 10-балльной шкале, хранятся в атрибуте-словаре у Lecturer, 
+в котором ключи – названия курсов, а значения – списки оценок). 
+Лектор при этом должен быть закреплен за тем курсом, на который записан студент.
+"""
+
 class Student: # класс студенты
     def __init__(self, name, surname, gender):
         self.name = name
@@ -41,7 +58,6 @@ class Student: # класс студенты
             return f'У студента {self.surname} {self.name} среднее значение оценок по сравнению со студентом {other.surname} {other.name} хуже'
         else:
             return f'У студента {self.surname} {self.name} среднее значение оценок по сравнению со студентом {other.surname} {other.name} лучше'
-
 
 
 
@@ -96,6 +112,10 @@ class Reviewer(Mentor): # класс эксперты, проверяющие д
 
 
 
+
+
+
+
 best_student = Student('Кирилл', 'Иванов', 'your_gender')
 best_student.courses_in_progress += ['Python']
 best_student.courses_in_progress += ['Git']
@@ -132,24 +152,55 @@ some_student.estimation_lecturer(some_lector,'Python', 10)
 best_student.estimation_lecturer(best_lector,'Python', 10)
 best_student.estimation_lecturer(best_lector,'Python', 10)
 
+
+
+
+print('\nНиже представлен print на выполнение задания №3')
+"""
+Задание № 3. Полиморфизм и магические методы
+1. Перегрузите магический метод __str__ у всех классов.
+2. Реализуйте возможность сравнивать (через операторы сравнения) между собой лекторов по средней оценке за лекции и студентов по средней оценке за домашние задания.
+"""
+
+print('\nДанные по проверяющему')
 print(some_reviewer) # задание 3
+print('\nДанные по лектору')
 print(some_lector) # задание 3
+print('\nДанные по студенту')
 print(some_student) # задание 3
+print('\nСравнение какой студент лучше обучается по оценкам')
 print(best_student < some_student) # задание 3
+print('\nСравнение какой лектор лучше преподает по оценкам')
 print(best_lector < some_lector) # задание 3
 
+# Задание 4
+student_list = [best_student, some_student]
+lectorer_list = [best_lector, some_lector]
 
+print('\nНиже представлен print на выполнение задания №4')
+"""
+Задание № 4. Полевые испытания
+Создайте по 2 экземпляра каждого класса, вызовите все созданные методы, а также реализуйте две функции:
+для подсчета средней оценки за домашние задания по всем студентам в рамках конкретного курса (в качестве аргументов принимаем список студентов и название курса);
+для подсчета средней оценки за лекции всех лекторов в рамках курса (в качестве аргумента принимаем список лекторов и название курса).
+"""
+def average_student(student_list, course):
+    sum_all = 0
+    count_all = 0
+    for student in student_list:
+        if course in student.courses_in_progress:
+            sum_all += student.average_score()
+            count_all += 1
+    return f'Средняя оценка за домашние задания по всем студентам в рамках курса  {course} равна {sum_all/count_all}'
 
+def average_lecturer(lectorer_list , course):
+    sum_all = 0
+    count_all = 0
+    for lecturer in lectorer_list:
+        if course in lecturer.courses_attached:
+            sum_all += lecturer.average_score()
+            count_all += 1
+    return f'Средняя оценка за лекции по всем лекторам в рамках курса  {course} равна {sum_all / count_all}'
 
-
-
-
-#
-# cool_mentor = Mentor('Some', 'Buddy')
-# cool_mentor.courses_attached += ['Python']
-#
-# cool_mentor.rate_hw(best_student, 'Python', 10)
-# cool_mentor.rate_hw(best_student, 'Python', 10)
-# cool_mentor.rate_hw(best_student, 'Python', 10)
-#
-# print(best_student.grades)
+print(average_student(student_list, 'Python'))
+print(average_lecturer(lectorer_list, 'Python'))
